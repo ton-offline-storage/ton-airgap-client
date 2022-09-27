@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OnErrorActivity">
+
+    <TextView
+        android:id="@+id/error_message_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/unknown_error"
+        android:textColor="@color/gray"
+        android:textSize="27sp" />
+
+    <Button
+        android:id="@+id/popup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:background="@drawable/blue_border"
+        android:fontFamily="@font/roboto"
+        android:padding="15sp"
+        android:text="@string/back_to_start"
+        android:textColor="@color/blue"
+        android:textSize="30sp" />
+</LinearLayout>

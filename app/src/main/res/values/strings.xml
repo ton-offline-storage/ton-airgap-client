@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">TON Air Gap Client</string>
+    <string name="scan_qr">Scan transaction</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="back_to_start">Back to start</string>
+    <string name="deployment">Deployment for address:</string>
+    <string name="send">Send</string>
+    <string name="address_decode_error">Error decoding address</string>
+    <string name="sending_error">Transaction didn\'t reach liteserver, or was rejected by it</string>
+    <string name="sending">Sending…</string>
+    <string name="prevalidating">Pre-validating…</string>
+    <string name="transfer">Transfer</string>
+    <string name="to_address">To address</string>
+    <string name="ton_amount">%1$s  TON</string>
+    <string name="transaction_success">Transaction accepted by liteserver</string>
+    <string name="need_permission_text">The camera permission is necessary to scan QR code</string>
+    <string name="liteclient_error">Error connecting to TON liteservers</string>
+    <string name="transaction_decoding_error">Couldn\'t decode transaction</string>
+    <string name="qr_scanner_error">Qr scanner error</string>
+    <string name="validation">Validation…</string>
+    <string name="validation_timeout">Transaction failed validation, probably not enough funds or invalid transaction</string>
+    <string name="send_anyway">Send anyway</string>
+    <string name="invalid_transaction">Transaction won\'t pass validation</string>
+    <string name="account_init_error">This account is already initialized.</string>
+    <string name="account_uninit_error">This account is not initialized.</string>
+    <string name="zero_balance">This account don\'t have any funds.</string>
+    <string name="seqno_differs">Transaction seqno differs from wallet\'s seqno.</string>
+    <string name="low_balance">Wallet\'s balance is less than transfer amount.</string>
+    <string name="prevalidation_error">Couldn\'t pre-validate transaction. It may not pass validation</string>
+</resources>
