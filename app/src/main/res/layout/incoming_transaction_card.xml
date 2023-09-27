@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/transaction_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="7dp"
+    android:layout_marginTop="9dp"
+    android:layout_marginEnd="7dp"
+    android:layout_marginBottom="9dp"
+    android:background="@drawable/gray_border"
+    android:paddingEnd="10dp"
+    android:paddingBottom="13dp">
+
+    <ImageView
+        android:id="@+id/down_arrow"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/transparent"
+        android:contentDescription="@string/down_arrow"
+        android:scaleType="fitXY"
+        android:src="@drawable/down_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/received"
+        android:textColor="@color/gray"
+        android:textSize="19dp"
+        app:layout_constraintBottom_toBottomOf="@id/down_arrow"
+        app:layout_constraintStart_toEndOf="@id/down_arrow"
+        app:layout_constraintTop_toTopOf="@id/down_arrow" />
+
+    <TextView
+        android:id="@+id/value_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/roboto"
+        android:includeFontPadding="false"
+        android:text="+1000.000000001 TON"
+        android:textAlignment="textEnd"
+        android:textColor="@color/green"
+        android:textSize="19dp"
+        app:layout_constraintBottom_toBottomOf="@id/down_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@id/down_arrow" />
+
+    <TextView
+        android:id="@+id/from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/from"
+        android:textColor="@color/mid_gray"
+        android:textSize="17dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/down_arrow" />
+
+    <TextView
+        android:id="@+id/address_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ellipsize="middle"
+        android:fontFamily="@font/roboto_mono"
+        android:singleLine="true"
+        android:text="EQCuCH5p60dmaRiijyOUAwcsGDFwoFez-2u0WZh8VxmB32kj"
+        android:textColor="@color/gray"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@id/from"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/from"
+        app:layout_constraintTop_toTopOf="@id/from" />
+
+    <TextView
+        android:id="@+id/fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/fee"
+        android:textColor="@color/mid_gray"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@id/date_time_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/date_time_label" />
+
+    <TextView
+        android:id="@+id/fee_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/roboto"
+        android:text="0.000000001"
+        android:textColor="@color/gray"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@id/date_time_label"
+        app:layout_constraintStart_toEndOf="@id/fee"
+        app:layout_constraintTop_toTopOf="@id/date_time_label" />
+
+    <TextView
+        android:id="@+id/date_time_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto"
+        android:text="21:37:25  07.09.2023"
+        android:textAlignment="textEnd"
+        android:textColor="@color/gray"
+        android:textSize="17dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fee_label"
+        app:layout_constraintTop_toBottomOf="@id/from" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

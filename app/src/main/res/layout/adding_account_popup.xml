@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_transparent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/inter_layout"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_background"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
+
+        <Button
+            android:id="@+id/paste_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/transparent"
+            android:fontFamily="@font/roboto"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/paste"
+            android:textColor="@color/blue"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/address_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="9dp"
+            android:autofillHints="@string/address"
+            android:backgroundTint="@color/black"
+            android:fontFamily="@font/roboto_mono"
+            android:hint="@string/address"
+            android:inputType="textVisiblePassword|textNoSuggestions"
+            android:text=""
+            android:textColor="@color/gray"
+            android:textColorHint="@color/mid_gray"
+            android:textCursorDrawable="@null"
+            android:textIsSelectable="true"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/wrong_address_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/wrong_address"
+            android:textColor="@color/red"
+            android:textSize="20dp"
+            android:visibility="gone">
+
+        </TextView>
+
+        <Button
+            android:id="@+id/add_account_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/blue_border"
+            android:fontFamily="@font/roboto"
+            android:padding="15dp"
+            android:text="@string/add"
+            android:textColor="@color/blue"
+            android:textSize="24dp" />
+    </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/upper_snack_place"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rotation="180" />
+</FrameLayout>

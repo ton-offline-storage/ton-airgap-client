@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/transaction_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="7dp"
+    android:layout_marginTop="9dp"
+    android:layout_marginEnd="7dp"
+    android:layout_marginBottom="9dp"
+    android:background="@drawable/gray_border"
+    android:paddingEnd="10dp"
+    android:paddingBottom="13dp">
+
+    <ImageView
+        android:id="@+id/question"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/transparent"
+        android:contentDescription="@string/question_mark"
+        android:scaleType="fitXY"
+        android:src="@drawable/question"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="bottom"
+        android:includeFontPadding="false"
+        android:text="@string/unknown"
+        android:textColor="@color/gray"
+        android:textSize="19dp"
+        app:layout_constraintBottom_toBottomOf="@id/question"
+        app:layout_constraintStart_toEndOf="@id/question"
+        app:layout_constraintTop_toTopOf="@id/question" />
+
+    <TextView
+        android:id="@+id/fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/fee"
+        android:textColor="@color/mid_gray"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@id/date_time_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/date_time_label" />
+
+    <TextView
+        android:id="@+id/fee_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/roboto"
+        android:text="0.000000001"
+        android:textColor="@color/gray"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@id/date_time_label"
+        app:layout_constraintStart_toEndOf="@id/fee"
+        app:layout_constraintTop_toTopOf="@id/date_time_label" />
+
+    <TextView
+        android:id="@+id/date_time_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:fontFamily="@font/roboto"
+        android:text="21:37:25  07.09.2023"
+        android:textAlignment="textEnd"
+        android:textColor="@color/gray"
+        android:textSize="17dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fee_label"
+        app:layout_constraintTop_toBottomOf="@id/question" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

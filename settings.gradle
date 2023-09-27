@@ -11,6 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://s01.oss.sonatype.org/service/local/repositories/snapshots/content/'}
     }
 }
 rootProject.name = "TON Air Gap Client"

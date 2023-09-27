@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_package = "com.tonairgapclient";
+option java_multiple_files = true;
+
+message Transaction {
+  uint64 lt = 1;
+  uint64 prevTxnLt = 2;
+  bytes hash = 3;
+  bytes prevTxnHash = 4;
+  uint64 feeNanoton = 5;
+  int32 type = 6;
+  string secondAddress = 7;
+  bool incoming = 8;
+  uint64 ton = 9;
+  uint64 nanoton = 10;
+  uint64 dateTime = 11;
+}
+
+message AccountTransactions {
+  repeated Transaction transactions = 1;
+}
+
+message TransactionsDataset {
+  repeated AccountTransactions dataset = 1;
+}

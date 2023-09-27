@@ -1,8 +1,8 @@
-package com.tonairgapclient
+package com.tonairgapclient.datamodels
 
 import org.ton.block.Coins
 
-data class AccountStatus(
+data class AccountValues(
     val state: State,
     val balance: Coins = Coins()
 ) {

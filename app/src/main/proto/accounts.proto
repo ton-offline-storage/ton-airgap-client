@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "com.tonairgapclient";
+option java_multiple_files = true;
+
+message Account {
+    string address = 1;
+    uint64 ton = 2;
+    uint64 nanoton = 3;
+    uint64 seqno = 4;
+    bool needDeployment = 5;
+    bytes deploymentBytes = 6;
+}
+
+message Accounts {
+   repeated Account accounts = 1;
+}

@@ -5,14 +5,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SendTransactionActivity">
+    tools:context=".activities.SendTransactionActivity">
 
     <ImageButton
         android:id="@+id/back_arrow"
-        android:layout_width="45sp"
-        android:layout_height="45sp"
-        android:layout_marginStart="5sp"
-        android:layout_marginTop="5sp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:background="@color/transparent"
         android:contentDescription="@string/back_to_start"
         android:scaleType="fitXY"
@@ -27,53 +27,90 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4sp"
+            android:layout_marginBottom="4dp"
             android:fontFamily="@font/roboto"
             android:gravity="center"
             android:text="@string/deployment"
             android:textColor="@color/gray"
-            android:textSize="23sp" />
+            android:textSize="23dp" />
 
         <TextView
             android:id="@+id/deployment_address_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
-            android:layout_marginTop="4sp"
-            android:layout_marginRight="15sp"
-            android:layout_marginBottom="8sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_mono"
             android:gravity="center"
             android:text="@string/address_decode_error"
             android:textColor="@color/gray"
-            android:textSize="24sp" />
+            android:textSize="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="@string/estimated_fee"
+            android:textColor="@color/gray"
+            android:textSize="23dp" />
+
+        <TextView
+            android:id="@+id/fee_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="@string/estimation"
+            android:textColor="@color/gray"
+            android:textSize="24dp" />
 
         <Button
             android:id="@+id/send_transaction_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8sp"
-            android:layout_marginBottom="10sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/blue_border"
             android:fontFamily="@font/roboto"
-            android:paddingLeft="30sp"
-            android:paddingTop="4sp"
-            android:paddingRight="30sp"
-            android:paddingBottom="7sp"
+            android:paddingLeft="30dp"
+            android:paddingTop="4dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="7dp"
             android:text="@string/send"
             android:textColor="@color/blue"
-            android:textSize="32sp" />
+            android:textSize="32dp" />
+
+        <Button
+            android:id="@+id/postpone_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/transparent"
+            android:fontFamily="@font/roboto"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/postpone_deployment"
+            android:textColor="@color/blue"
+            android:textSize="22dp" />
 
         <TextView
             android:id="@+id/status_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto"
             android:gravity="center"
             android:text="@string/sending"
             android:textColor="@color/gray"
-            android:textSize="27sp"
+            android:textSize="27dp"
             android:visibility="invisible" />
     </LinearLayout>
 </LinearLayout>

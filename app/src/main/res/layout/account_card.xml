@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/account_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_inner"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="9dp"
+        android:background="@drawable/gray_border"
+        android:paddingEnd="10dp"
+        android:paddingBottom="13dp">
+
+        <ImageView
+            android:id="@+id/identicon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="13dp"
+            android:contentDescription="@string/identicon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/address_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="13dp"
+            android:ellipsize="middle"
+            android:fontFamily="@font/roboto_mono"
+            android:singleLine="true"
+            android:text="EQAzfFTh74RPe1ulNzRyWQTUqcMEtMsEhwUGIGT9G9v6GbDX"
+            android:textColor="@color/gray"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toTopOf="@+id/update_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/identicon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- MAX 14 TOTAL DIGITS -->
+        <TextView
+            android:id="@+id/balance_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="7dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_mono"
+            android:gravity="start"
+            android:singleLine="true"
+            android:text="1000000.000000001 TON"
+            android:textColor="@color/gray"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/update_button"
+            app:layout_constraintEnd_toStartOf="@+id/update_button"
+            app:layout_constraintStart_toStartOf="@id/address_label"
+            app:layout_constraintTop_toBottomOf="@+id/address_label"
+            app:layout_constraintTop_toTopOf="@+id/update_button" />
+
+        <ImageButton
+            android:id="@+id/update_button"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="3dp"
+            android:background="@color/transparent"
+            android:contentDescription="@string/update_balance"
+            android:scaleType="fitXY"
+            android:src="@drawable/update_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/address_label" />
+
+        <ProgressBar
+            android:id="@+id/update_progress_bar"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:indeterminateTint="@color/blue"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/update_button"
+            app:layout_constraintTop_toTopOf="@+id/update_button">
+
+        </ProgressBar>
+
+        <ImageView
+            android:id="@+id/tick"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/transparent"
+            android:contentDescription="@string/tick"
+            android:scaleType="fitXY"
+            android:src="@drawable/tick"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
