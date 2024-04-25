@@ -6,4 +6,4 @@ It broadcasts transactions to the network. To create and sign transactions, use 
 
 ## Usage
 
-Download latest APK release and install on android device
+Download latest APK release(`ton-airgap-client.apk`) and install on android device
