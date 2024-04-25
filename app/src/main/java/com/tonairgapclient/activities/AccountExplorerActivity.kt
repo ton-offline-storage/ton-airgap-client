@@ -151,7 +151,7 @@ class AccountExplorerActivity : AppCompatActivity() {
     private suspend fun loadMoreTxs() {
         val oldestTxn = AccountsKeeper.getAccountTxs(accountIndex).last()
         val oldTxs = getTransactions(MsgAddressInt(accountAddress),
-            TransactionId(oldestTxn.prevTxnHash.toByteArray(), oldestTxn.prevTxnLt))
+            TransactionId(oldestTxn.prevTxnHash.toByteArray(), oldestTxn.prevTxnLt)) ?: return
         Log.d("Debug", "Loaded " + oldTxs.size + "more transactions")
         AccountsKeeper.addOldTxs(accountIndex, oldTxs, adapter)
         AccountsKeeper.store(this.applicationContext)
@@ -162,14 +162,17 @@ class AccountExplorerActivity : AppCompatActivity() {
         updateTransactionsWithCachedBlock()
     }
     private suspend fun updateTransactionsWithCachedBlock() {
+        Log.d("Debug", "Updating transactions with cached block for: $accountAddress")
         val fullState = getFullAccountState(accountAddress,
             TonlibController.getCachedLastBlockId()
         ) ?: return
+        Log.d("Debug", "Got state for $accountAddress")
         val latestTxn = AccountsKeeper.getAccountTxs(accountIndex).firstOrNull()
         if(latestTxn != null && TransactionId(latestTxn.hash.toByteArray(), latestTxn.lt) == fullState.lastTransactionId) {
             Log.d("Debug", "No new transactions")
             return
         }
+        Log.d("Debug", "Last txn:" + fullState.lastTransactionId)
         val status = getAccountValues(fullState)
         if(status != null) {
             AccountsKeeper.updateBalance(accountIndex, status.balance)
@@ -190,7 +193,7 @@ class AccountExplorerActivity : AppCompatActivity() {
             }
         }
         val lastTxId = fullState.lastTransactionId ?: return
-        val newTxs = getTransactions(fullState.address, lastTxId)
+        val newTxs = getTransactions(fullState.address, lastTxId) ?: return
         Log.d("Debug", "Managed to get: " + newTxs.size + " transactions")
         AccountsKeeper.addNewTxs(accountIndex, newTxs, adapter)
         if(AccountsKeeper.getAccountTxsNum(accountIndex) > 0) {

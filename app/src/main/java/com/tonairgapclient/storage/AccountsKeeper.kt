@@ -102,7 +102,7 @@ object AccountsKeeper : CoroutineScope {
                 }
                 if(updated) store(context)
                 Log.d("DebugU", "Updater mod: $mod saved values")
-                index += 3
+                index += min(NUM_UPDATERS, accounts.accountsCount)
             }
         }
     }

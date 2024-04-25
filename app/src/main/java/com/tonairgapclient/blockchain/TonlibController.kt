@@ -2,7 +2,6 @@ package com.tonairgapclient.blockchain
 
 import android.os.StrictMode
 import android.util.Log
-import com.tonairgapclient.utils.address
 import com.tonairgapclient.datamodels.AccountValues
 import com.tonairgapclient.datamodels.DeploymentData
 import com.tonairgapclient.datamodels.FeeRequest
@@ -10,12 +9,12 @@ import com.tonairgapclient.datamodels.TransactionData
 import com.tonairgapclient.datamodels.TransferData
 import com.tonairgapclient.datamodels.TransferWrap
 import com.tonairgapclient.datamodels.UnknownTransactionData
+import com.tonairgapclient.utils.address
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.json.JSONObject
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
@@ -52,6 +51,7 @@ import org.ton.tlb.constructor.AnyTlbConstructor
 import org.ton.tlb.loadTlb
 import java.net.URL
 import kotlin.coroutines.CoroutineContext
+import kotlin.properties.Delegates
 
 object TonlibController : CoroutineScope {
     private const val MAINNET_ID = 0
@@ -64,6 +64,7 @@ object TonlibController : CoroutineScope {
     private val jsonFormat = Json {ignoreUnknownKeys = true}
     const val TONCENTER: String = "https://toncenter.com/api/v2/jsonRPC"
     private lateinit var liteClient: LiteClient
+    private var numLiteServers = 0
     private var clientInited = false
     private lateinit var lastBlockId: TonNodeBlockIdExt
     fun initClient() : Boolean {
@@ -76,6 +77,7 @@ object TonlibController : CoroutineScope {
             val config = jsonFormat.decodeFromString<LiteClientConfigGlobal>(
                 URL("https://ton.org/global-config.json").readText()
             )
+            numLiteServers = config.liteServers.size
             liteClient = LiteClient(Dispatchers.IO, config)
         } catch (e: Exception) {
             return false
@@ -97,6 +99,9 @@ object TonlibController : CoroutineScope {
         } catch (e: IllegalArgumentException) {
             false
         }
+    }
+    private fun addressToString(address: MsgAddressInt): String {
+        return MsgAddressInt.toString(address, bounceable = false)
     }
     suspend fun sendBytes(bytes : ByteArray) : Boolean = withContext(Dispatchers.IO) {
         try {
@@ -122,7 +127,7 @@ object TonlibController : CoroutineScope {
             val message = extractMessageFromBoc(bytes)
             val stateInit = message.init.value?.x ?: message.init.value?.y?.value ?: return null
             val address = address(MAINNET_ID, stateInit)
-            return AddrStd.toString(address)
+            return AddrStd.toString(address, bounceable = false)
         } catch (e: Exception) {
             return null
         }
@@ -130,7 +135,7 @@ object TonlibController : CoroutineScope {
     fun extractDataFromTransferBoc(bytes: ByteArray) : TransferWrap? {
         try {
             val message = extractMessageFromBoc(bytes)
-            val sourceAddress = MsgAddressInt.toString((message.info as ExtInMsgInfo).dest)
+            val sourceAddress = addressToString((message.info as ExtInMsgInfo).dest)
             val body = message.body.x ?: message.body.y?.value ?: return null
             if(body.bits.size <= DEPLOYMENT_BODY_BIT_SIZE) {
                 Log.d("Debug", "Low bits number")
@@ -172,7 +177,7 @@ object TonlibController : CoroutineScope {
                 skipBits(32)
                 loadBits(bits.size - bitsPosition).toByteArray().decodeToString()
             } else null
-            return TransferWrap(sourceAddress, MsgAddressInt.toString(info.dest), comment,
+            return TransferWrap(sourceAddress, addressToString(info.dest), comment,
                 info.value.coins, seqno)
         } catch(e: Exception) {
             Log.d("Debug", "Exception: " + e.message)
@@ -197,7 +202,7 @@ object TonlibController : CoroutineScope {
             )
         } else {
             val sourceAddress = (message.info as? ExtInMsgInfo)?.dest ?: return null
-            val address = MsgAddressInt.toString(sourceAddress)
+            val address = addressToString(sourceAddress)
             return FeeRequest(address,
                 base64(BagOfCells(body).toByteArray()),
                 "",
@@ -271,7 +276,7 @@ object TonlibController : CoroutineScope {
         var result: FullAccountState? = null
         var tries = GET_DATA_TRIES
         while(result == null && tries > 0) {
-            Log.d("Debug", "trying")
+            Log.d("Debug", "trying for $address")
             try {
                 result = liteClient.getAccountState(AddrStd(address), lastBlockId)
             } catch (e: Exception) {
@@ -284,7 +289,7 @@ object TonlibController : CoroutineScope {
             --tries
         }
         if (result != null) {
-            Log.d("Debug", "Needed " + (GET_DATA_TRIES - tries) + " account storage tries")
+            Log.d("Debug", "Needed " + (GET_DATA_TRIES - tries) + " account storage tries for $address")
         } else {
             Log.d("Debug", "Couldn't get account storage")
         }
@@ -311,8 +316,8 @@ object TonlibController : CoroutineScope {
     private fun extractInternalTransfer(lt: ULong, prevTxnLt: ULong, hash: BitString,
                                         prevTxnHash: BitString, fee: Coins, dateTime: ULong,
                                         msgInfo: IntMsgInfo, mainAddress: String): TransferData {
-        val src = MsgAddressInt.toString(msgInfo.src)
-        val dest = MsgAddressInt.toString(msgInfo.dest)
+        val src = addressToString(msgInfo.src)
+        val dest = addressToString(msgInfo.dest)
         val value = msgInfo.value.coins
         return when(src == mainAddress) {
             false -> TransferData(lt, prevTxnLt, hash, prevTxnHash, fee, dateTime, src, true, value)
@@ -337,7 +342,7 @@ object TonlibController : CoroutineScope {
             is ExtInMsgInfo -> {
                 if(transaction.origStatus == AccountStatus.UNINIT &&
                     transaction.endStatus == AccountStatus.ACTIVE &&
-                    inMsg.init.get() != null && MsgAddressInt.toString(msgInfo.dest) == mainAddress) {
+                    inMsg.init.get() != null && addressToString(msgInfo.dest) == mainAddress) {
                     DeploymentData(lt, prevTxnLt, hash, prevTxnHash, fee, dateTime, mainAddress)
                 } else if(transaction.outMsgCnt == 1) {
                     val outMsgInfo = ((transaction.r1.value.outMsgs as? HmeRoot)?.
@@ -353,9 +358,29 @@ object TonlibController : CoroutineScope {
     suspend fun getTransactions(accountAddress: MsgAddressInt,
                                 fromTransactionId: TransactionId,
                                 count: Int = TRANSACTIONS_CHUNK
-    ): List<TransactionData> = withContext(Dispatchers.IO) {
-        return@withContext liteClient.getTransactions(accountAddress, fromTransactionId, count).map { txnInfo ->
-            extractTransactionData(txnInfo, MsgAddressInt.toString(accountAddress))
+    ): List<TransactionData>? = withContext(Dispatchers.IO) {
+        var result: List<TransactionData>? = null
+        var tries = numLiteServers
+        while(result == null && tries > 0) {
+            Log.d("Debug", "Try get transactions")
+            try {
+                result = liteClient.getTransactions(accountAddress, fromTransactionId, count).map { txnInfo ->
+                    extractTransactionData(txnInfo, addressToString(accountAddress))
+                }
+            } catch (e: Exception) {
+                Log.d("Debug", "get Transactions fail: " + e.message)
+                e.printStackTrace()
+                if (e is LiteServerException) {
+                    Log.d("Debug", "LiteServer Exception")
+                }
+            }
+            --tries
         }
+        if (result != null) {
+            Log.d("Debug", "Needed " + (numLiteServers - tries) + " txn tries for: " + addressToString(accountAddress))
+        } else {
+            Log.d("Debug", "Couldn't get transactions")
+        }
+        result
     }
 }

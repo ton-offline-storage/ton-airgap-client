@@ -32,6 +32,7 @@ import com.tonairgapclient.scrolling.AccountItemDetailsLookup
 import com.tonairgapclient.scrolling.SelectionDetector
 import com.tonairgapclient.storage.AccountsKeeper
 import kotlinx.coroutines.launch
+import org.ton.block.MsgAddressInt
 
 class WatchAccountsActivity : ComponentActivity() {
     private lateinit var popup: PopupWindow
@@ -128,9 +129,9 @@ class WatchAccountsActivity : ComponentActivity() {
         detector.deselect()
         Log.d("Debug", "Afterwards detector state" + detector.isSelected())
     }
-    private fun addAccount(address: String) {
+    private fun addAccount(inputAddress: String) {
         Log.d("Debug", "adding")
-        if(!TonlibController.validateAddress(address)) {
+        if(!TonlibController.validateAddress(inputAddress)) {
             Log.d("Debug", "Wrong")
             val alert = popup.contentView.findViewById<TextView>(R.id.wrong_address_alert)
             alert.text = getString(R.string.wrong_address)
@@ -139,6 +140,7 @@ class WatchAccountsActivity : ComponentActivity() {
             input.backgroundTintList = AppCompatResources.getColorStateList(this, R.color.red)
             return
         }
+        val address = MsgAddressInt.toString(MsgAddressInt(inputAddress), bounceable = false)
         if(AccountsKeeper.findAccount(address) != null) {
             Log.d("Debug", "Address already exists")
             val alert = popup.contentView.findViewById<TextView>(R.id.wrong_address_alert)

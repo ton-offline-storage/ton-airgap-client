@@ -47,9 +47,9 @@ import java.math.BigInteger
 //Deal with empty transaction issue, sample address EQBWl0HakAranxsLaDPcQGJtExFYZ8g7NR4D-JdvaV4cAKfZ
 //Background account updates
 //deployment postpone
+//Deal with rejected transaction issue
 */
 
-//Deal with rejected transaction issue
 //Asynchronous client init ?
 //split thousands zeros ?
 //interpret liteserver exceptions ?
