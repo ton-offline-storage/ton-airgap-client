@@ -15,9 +15,9 @@ import com.google.protobuf.ByteString
 import com.tonairgapclient.Account
 import com.tonairgapclient.AccountTransactions
 import com.tonairgapclient.Accounts
-import com.tonairgapclient.blockchain.TonlibController
 import com.tonairgapclient.Transaction
 import com.tonairgapclient.TransactionsDataset
+import com.tonairgapclient.blockchain.TonlibController
 import com.tonairgapclient.datamodels.AccountValues
 import com.tonairgapclient.datamodels.TransactionData
 import com.tonairgapclient.scrolling.AccountItemAdapter
@@ -33,7 +33,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.ton.bigint.toBigInt
 import org.ton.block.Coins
-import org.ton.block.VarUInteger
 import java.lang.Integer.min
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -325,12 +324,12 @@ object AccountsKeeper : CoroutineScope {
     @JvmStatic
     fun getTransactionValue(accountIndex: Int, index: Int): Coins {
         val transaction = getAccountTxn(accountIndex, index)
-        return Coins(VarUInteger(transaction.ton.toBigInt() * BILLION.toBigInt() + transaction.nanoton.toBigInt()))
+        return Coins(transaction.ton.toBigInt() * BILLION.toBigInt() + transaction.nanoton.toBigInt())
     }
     @JvmStatic
     fun getBalance(index: Int): Coins {
         val account = getAccount(index)
-        return Coins(VarUInteger(account.ton.toBigInt() * BILLION.toBigInt() + account.nanoton.toBigInt()))
+        return Coins(account.ton.toBigInt() * BILLION.toBigInt() + account.nanoton.toBigInt())
     }
     @JvmStatic
     fun updateBalance(index: Int, coins: Coins) {

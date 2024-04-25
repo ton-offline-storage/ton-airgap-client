@@ -2,20 +2,12 @@ package com.tonairgapclient.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.StrictMode
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.tonairgapclient.R
 import com.tonairgapclient.blockchain.TonlibController
 import com.tonairgapclient.storage.AccountsKeeper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
-import org.ton.api.liteclient.config.LiteClientConfigGlobal
-import org.ton.block.AddrStd
-import org.ton.lite.client.LiteClient
-import java.net.URL
 
 class MainActivity : AppCompatActivity() {
     private fun switchToQR() {

@@ -18,7 +18,7 @@ sealed interface TransactionData{
         builder.prevTxnLt = prevTxnLt.toLong()
         builder.hash = ByteString.copyFrom(hash.toByteArray())
         builder.prevTxnHash = ByteString.copyFrom(prevTxnHash.toByteArray())
-        builder.feeNanoton = fee.amount.toLong()
+        builder.feeNanoton = fee.amount.value.toLong()
         builder.dateTime = dateTime.toLong()
         return builder.build()
     }

@@ -35,7 +35,6 @@ import com.tonairgapclient.utils.trimZeros
 import kotlinx.coroutines.launch
 import org.ton.bigint.toBigInt
 import org.ton.block.Coins
-import org.ton.block.VarUInteger
 import java.math.BigInteger
 
 
@@ -44,7 +43,6 @@ import java.math.BigInteger
 //Add fee estimation
 //identicon update lag
 //Add resizing to address label in explorer!
-//Deal with empty transaction issue, sample address EQBWl0HakAranxsLaDPcQGJtExFYZ8g7NR4D-JdvaV4cAKfZ
 //Background account updates
 //deployment postpone
 //Deal with rejected transaction issue
@@ -403,7 +401,7 @@ class SendTransactionActivity : AppCompatActivity() {
                 commentContentLabel.visibility = View.VISIBLE
             }
             addressLabel.text = intent.getStringExtra("dest")
-            transferAmount = Coins(VarUInteger(BigInteger(intent.getByteArrayExtra("amount"))))
+            transferAmount = Coins(BigInteger(intent.getByteArrayExtra("amount")))
             amountLabel.text = getString(R.string.ton_amount, trimZeros(transferAmount.toString()))
             transactionSeqno = intent.getLongExtra("seqno", 0)
             val compareButton = findViewById<Button>(R.id.compare_clipboard_button)

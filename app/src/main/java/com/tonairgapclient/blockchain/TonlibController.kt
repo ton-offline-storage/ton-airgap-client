@@ -51,7 +51,6 @@ import org.ton.tlb.constructor.AnyTlbConstructor
 import org.ton.tlb.loadTlb
 import java.net.URL
 import kotlin.coroutines.CoroutineContext
-import kotlin.properties.Delegates
 
 object TonlibController : CoroutineScope {
     private const val MAINNET_ID = 0

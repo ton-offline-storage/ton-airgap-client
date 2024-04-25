@@ -14,7 +14,13 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# -keepattributes SourceFile,LineNumberTable
+-keepnames public class com.tonairgapclient.Account {*;}
+-keepnames public class com.tonairgapclient.Accounts {*;}
+-keepnames public class com.tonairgapclient.Accounts {*;}
+-keepnames public class com.tonairgapclient.Transaction {*;}
+-keepnames public class com.tonairgapclient.AccountTransactions {*;}
+-keepnames public class com.tonairgapclient.TransactionsDataset {*;}
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
