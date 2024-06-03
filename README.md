@@ -6,4 +6,4 @@ It broadcasts transactions to the network, displays balance and history. To crea
 
 ## Usage
 
-Download latest APK release(`ton-airgap-client.apk`) and install on android device
+Download latest APK [release](https://github.com/ton-offline-storage/ton-airgap-client/releases)(`ton-airgap-client.apk`) and install on android device
