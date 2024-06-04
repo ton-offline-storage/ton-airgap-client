@@ -7,3 +7,12 @@ It broadcasts transactions to the network, displays balance and history. To crea
 ## Usage
 
 Download latest APK [release](https://github.com/ton-offline-storage/ton-airgap-client/releases)(`ton-airgap-client.apk`) and install on android device
+
+
+## Back-end
+
+Application relies on some established TON back-end services:
+
+- Free public liteservers from the public [configuration](https://ton.org/global-config.json) - for core functionality, sending transactions, receiving blockchain data
+- https://toncenter.com/ - for transaction fee estimation
+- https://tonapi.io/ - for displaying TON market price
