@@ -69,7 +69,9 @@ class AccountExplorerActivity : AppCompatActivity() {
 
         accountAddress = AccountsKeeper.getAccount(accountIndex).address
         addressLabel.text = accountAddress
-        balanceLabel.text = getString(R.string.ton_amount, trimZeros(AccountsKeeper.getBalance(accountIndex).toString()))
+        val accountBalance = AccountsKeeper.getBalance(accountIndex)
+        balanceLabel.text = getString(R.string.ton_amount, trimZeros(accountBalance.toString()),
+            TonlibController.getTonPriceString(accountBalance))
         seqnoLabel.text = AccountsKeeper.getAccount(accountIndex).seqno.toString()
 
         val identiconResolution = resources.displayMetrics.heightPixels / 10
@@ -158,7 +160,9 @@ class AccountExplorerActivity : AppCompatActivity() {
         isLoadingOldTxs = false
     }
     private suspend fun regularTxsUpdate() {
-        balanceLabel.text = getString(R.string.ton_amount, trimZeros(AccountsKeeper.getBalance(accountIndex).toString()))
+        val balance = AccountsKeeper.getBalance(accountIndex)
+        balanceLabel.text = getString(R.string.ton_amount, trimZeros(balance.toString()),
+            TonlibController.getTonPriceString(balance))
         updateTransactionsWithCachedBlock()
     }
     private suspend fun updateTransactionsWithCachedBlock() {
@@ -179,7 +183,8 @@ class AccountExplorerActivity : AppCompatActivity() {
             Log.d("Debug", "Balance updated")
             AccountsKeeper.store(this.applicationContext)
             Log.d("Debug", "Stored")
-            balanceLabel.text = getString(R.string.ton_amount, trimZeros(status.balance.toString()))
+            balanceLabel.text = getString(R.string.ton_amount, trimZeros(status.balance.toString()),
+                TonlibController.getTonPriceString(status.balance))
 
             Log.d("Debug", "Getting seqno")
             val seqno = if(status.state != AccountValues.State.UNINIT) getSeqno(accountAddress,

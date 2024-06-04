@@ -11,7 +11,7 @@
     <string name="prevalidating">Pre-validating…</string>
     <string name="transfer">Transfer</string>
     <string name="to_address">To address</string>
-    <string name="ton_amount">%1$s  TON</string>
+    <string name="ton_amount">%1$s  TON %2$s</string>
     <string name="transaction_success">Transaction accepted by liteserver</string>
     <string name="need_permission_text">The camera permission is necessary to scan QR code</string>
     <string name="liteclient_error">Error connecting to TON liteservers</string>
@@ -70,4 +70,5 @@
     <string name="postpone_deployment">Postpone deployment</string>
     <string name="postpone_popup">When app is open, it would automatically send deployment, when account has enough funds. Don\'t delete this address from the watchlist</string>
     <string name="ok">Ok</string>
+    <string name="seqno">Seqno:</string>
 </resources>

@@ -20,6 +20,7 @@ import com.tonairgapclient.Account
 import com.tonairgapclient.R
 import com.tonairgapclient.blockchain.TonlibController.getAccountValues
 import com.tonairgapclient.activities.WatchAccountsActivity
+import com.tonairgapclient.blockchain.TonlibController
 import com.tonairgapclient.storage.AccountsKeeper
 import com.tonairgapclient.utils.trimZeros
 import io.github.thibseisel.identikon.Identicon
@@ -81,7 +82,8 @@ class AccountItemAdapter(private val activity: WatchAccountsActivity,
     private fun getBalanceString(coins: Coins) : String {
         val balanceString = trimZeros(coins.toString())
         return context.getString(
-            R.string.ton_amount, balanceString)
+            R.string.ton_amount, balanceString,
+            TonlibController.getTonPriceString(coins))
     }
     fun updateBalance(address: String, position: Int) {
         AccountsKeeper.animate(position)

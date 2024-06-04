@@ -11,8 +11,9 @@
     <color name="mid_gray">#8A8A8A</color>
     <color name="slight_gray">#E6E6E6</color>
     <color name="red">#FF3232</color>
+    <color name="transparent_red">#D1FF3232</color>
     <color name="red_delete">#E92727</color>
     <color name="green">#4CAF50</color>
     <color name="soft_red">#BD4747</color>
-    <color name="transparent_red">#B1FF3232</color>
+    <color name="soft_white_red">#FF6D6D</color>
 </resources>

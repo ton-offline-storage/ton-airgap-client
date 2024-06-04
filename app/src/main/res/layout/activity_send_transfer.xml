@@ -47,7 +47,7 @@
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:text="1.0000 TON"
+                android:text="10000.000000 TON ($70000.001)"
                 android:textColor="@color/gray"
                 android:textSize="24dp" />
 
@@ -112,9 +112,11 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="4dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:text="This is a really large comment"
+                android:maxLines="3"
+                android:text="012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
                 android:textColor="@color/gray"
                 android:textSize="22dp"
                 android:visibility="gone" />

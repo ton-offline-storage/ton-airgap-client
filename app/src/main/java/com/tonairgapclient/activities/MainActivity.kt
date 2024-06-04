@@ -40,26 +40,6 @@ class MainActivity : AppCompatActivity() {
             switchToError(getString(R.string.liteclient_error))
             return
         }
-        /*val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-        StrictMode.setThreadPolicy(policy)
-        val jsonFormat = Json {ignoreUnknownKeys = true}
-        val config = jsonFormat.decodeFromString<LiteClientConfigGlobal>(
-            URL("https://ton.org/global-config.json").readText()
-        )
-
-        //val address = "UQBZf6LoZG0KSONnGs1ljXgVe_KhxOspnT1NAwV0rWMy1mw9"
-        //val address = "UQBWl0HakAranxsLaDPcQGJtExFYZ8g7NR4D-JdvaV4cAPoc"
-        //val address = "UQCtiv7PrMJImWiF2L5oJCgPnzp-VML2CAt5cbn1VsKAxOVB"
-        //val address = "UQCTd6HSN6kMQfYU5fel7BykpGh7ARzWunj2zmB9fhgGAzv_"
-        val address = "UQDaokYMTQSpFFjbe9Pht2AH6AwD2PhnOGmSFsJH5WsNhQas"
-        val liteClient = LiteClient(Dispatchers.IO, config)
-        Log.d("Debug", "inited")
-        runBlocking {
-            val result = liteClient.getAccountState(AddrStd(address))
-            Log.d("Debug", "got state")
-            liteClient.getTransactions(result.address, result.lastTransactionId!!, 2)
-        }*/
-
         Log.d("Debug", "Done")
     }
 }

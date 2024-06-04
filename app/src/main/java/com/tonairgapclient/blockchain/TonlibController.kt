@@ -59,13 +59,18 @@ object TonlibController : CoroutineScope {
     private const val SIGNATURE_BYTE_SIZE = 64
     private const val DEPLOYMENT_BODY_BIT_SIZE = 32
     private const val BLOCK_UPDATE_TIMEOUT: Long = 5000L
+    private const val TON_RATE_UPDATE_TIMEOUT: Long = 60000L
     override val coroutineContext: CoroutineContext = Dispatchers.IO
     private val jsonFormat = Json {ignoreUnknownKeys = true}
+    private const val LITESERVERS_CONFIG_URL: String = "https://ton.org/global-config.json"
     const val TONCENTER: String = "https://toncenter.com/api/v2/jsonRPC"
+    private const val TONAPI_RATES_URL: String = "https://tonapi.io/v2/rates?tokens=ton&currencies=ton,usd,rub"
     private lateinit var liteClient: LiteClient
     private var numLiteServers = 0
     private var clientInited = false
     private lateinit var lastBlockId: TonNodeBlockIdExt
+    private var tonUSDRate: Double? = null
+    private const val BILLION: Double = 1e9
     fun initClient() : Boolean {
         if(clientInited) {
             return true
@@ -74,7 +79,7 @@ object TonlibController : CoroutineScope {
         StrictMode.setThreadPolicy(policy)
         try {
             val config = jsonFormat.decodeFromString<LiteClientConfigGlobal>(
-                URL("https://ton.org/global-config.json").readText()
+                URL(LITESERVERS_CONFIG_URL).readText()
             )
             numLiteServers = config.liteServers.size
             liteClient = LiteClient(Dispatchers.IO, config)
@@ -89,7 +94,21 @@ object TonlibController : CoroutineScope {
                 Log.d("DebugU", "Block updated")
             }
         }
+        launch {
+            while (true) {
+                updateTonRate()
+                delay(TON_RATE_UPDATE_TIMEOUT)
+            }
+        }
         return true
+    }
+    private fun updateTonRate() {
+        val rateData = JSONObject(URL(TONAPI_RATES_URL).readText())
+        tonUSDRate = rateData.getJSONObject("rates").getJSONObject("TON").getJSONObject("prices").getDouble("USD")
+    }
+    fun getTonPriceString(amount: Coins): String {
+        val usdValue = amount.amount.value.toDouble() / BILLION * (tonUSDRate ?: return "")
+        return "($" + String.format("%.3f", usdValue) + ")"
     }
     fun validateAddress(address: String) : Boolean {
         return try {
@@ -172,11 +191,14 @@ object TonlibController : CoroutineScope {
                     Log.d("Debug", "Empty payload")
                 }
             }
-            val comment = if(payload?.isEmpty() == false) payload.parse {
-                skipBits(32)
-                loadBits(bits.size - bitsPosition).toByteArray().decodeToString()
-            } else null
-            return TransferWrap(sourceAddress, addressToString(info.dest), comment,
+            var commentBits = BitString()
+            var currentCell = payload
+            while(currentCell != null) {
+                commentBits += currentCell.bits
+                currentCell = currentCell.refs.firstOrNull()
+            }
+            return TransferWrap(sourceAddress, addressToString(info.dest),
+                commentBits.slice(32).toByteArray().decodeToString(),
                 info.value.coins, seqno)
         } catch(e: Exception) {
             Log.d("Debug", "Exception: " + e.message)

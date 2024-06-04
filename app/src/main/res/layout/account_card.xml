@@ -57,7 +57,7 @@
             android:fontFamily="@font/roboto_mono"
             android:gravity="start"
             android:singleLine="true"
-            android:text="1000000.000000001 TON"
+            android:text="1000000.000000001 TON ($7000000.001)"
             android:textColor="@color/gray"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/update_button"

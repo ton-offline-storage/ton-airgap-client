@@ -1,9 +1,11 @@
 package com.tonairgapclient.activities
 
+import android.content.ClipData
 import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Color.argb
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
@@ -18,7 +20,6 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
@@ -58,6 +59,7 @@ import java.math.BigInteger
 //new font, styles, dark theme
 //seed pasting to offline
 //display total balance
+//display transaction comment
 
 class SendTransactionActivity : AppCompatActivity() {
     private lateinit var transactionBytes: ByteArray
@@ -298,9 +300,8 @@ class SendTransactionActivity : AppCompatActivity() {
                 val highlightedAddress = SpannableString(addressLabel.text.toString())
                 highlightedAddress.forEachIndexed { index, c ->
                     if(c != clipAddress.getOrNull(index)) {
-                        highlightedAddress.setSpan(BackgroundColorSpan(ContextCompat.getColor(this,
-                            R.color.transparent_red
-                        )), index, index + 1, 0)
+                        highlightedAddress.setSpan(BackgroundColorSpan(argb(130, 255, 50, 50)),
+                            index, index + 1, 0)
                     }
                 }
                 Log.d("Debug", addressLabel.text.toString())
@@ -344,7 +345,8 @@ class SendTransactionActivity : AppCompatActivity() {
                     fees.getLong("storage_fee").toBigInt() +
                     fees.getLong("gas_fee").toBigInt() +
                     fees.getLong("fwd_fee").toBigInt())
-                    feeLabel.text = trimZeros(feeValue.toString())
+                    feeLabel.text = getString(R.string.ton_amount,trimZeros(feeValue.toString()),
+                        TonlibController.getTonPriceString(feeValue))
                     Log.d("Debug", "Fee is $feeValue")
                 } else {
                     feeLabel.text = getString(R.string.estimate_fee_fail)
@@ -360,6 +362,14 @@ class SendTransactionActivity : AppCompatActivity() {
                 }
             }
         )
+    }
+    private fun showAddressCopiedSnackBar() {
+        val customSnackView: View = layoutInflater.inflate(R.layout.upper_snack, findViewById(R.id.root_layout), false)
+        val snackbar = Snackbar.make(findViewById(R.id.upper_snack_place), "", Snackbar.LENGTH_SHORT)
+        val snackbarLayout: Snackbar.SnackbarLayout = snackbar.view as? Snackbar.SnackbarLayout ?: return
+        snackbarLayout.setBackgroundColor(Color.TRANSPARENT)
+        snackbarLayout.addView(customSnackView, 0)
+        snackbar.show()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -377,6 +387,11 @@ class SendTransactionActivity : AppCompatActivity() {
             makeFeeRequest(transactionBytes, isDeployment)
             val addressLabel = findViewById<TextView>(R.id.deployment_address_label)
             addressLabel.text = sourceAddress
+            addressLabel.setOnClickListener{
+                val clip = ClipData.newPlainText("Address", addressLabel.text)
+                clipboard.setPrimaryClip(clip)
+                showAddressCopiedSnackBar()
+            }
             if(AccountsKeeper.findAccount(sourceAddress) == null) {
                 AccountsKeeper.addAccount(sourceAddress, this.applicationContext)
                 lifecycleScope.launch {
@@ -402,7 +417,8 @@ class SendTransactionActivity : AppCompatActivity() {
             }
             addressLabel.text = intent.getStringExtra("dest")
             transferAmount = Coins(BigInteger(intent.getByteArrayExtra("amount")))
-            amountLabel.text = getString(R.string.ton_amount, trimZeros(transferAmount.toString()))
+            amountLabel.text = getString(R.string.ton_amount, trimZeros(transferAmount.toString()),
+                    TonlibController.getTonPriceString(transferAmount))
             transactionSeqno = intent.getLongExtra("seqno", 0)
             val compareButton = findViewById<Button>(R.id.compare_clipboard_button)
             compareButton.setOnClickListener(this::compareAddress)

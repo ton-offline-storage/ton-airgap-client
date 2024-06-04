@@ -21,6 +21,8 @@
 -keepnames public class com.tonairgapclient.Transaction {*;}
 -keepnames public class com.tonairgapclient.AccountTransactions {*;}
 -keepnames public class com.tonairgapclient.TransactionsDataset {*;}
+-keep public class com.tonairgapclient.R$color {*;}
+-keep public class com.tonairgapclient.R$string {*;}
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
