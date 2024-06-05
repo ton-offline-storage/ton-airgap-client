@@ -16,3 +16,9 @@ Application relies on some established TON back-end services:
 - Free public liteservers from the public [configuration](https://ton.org/global-config.json) - for core functionality, sending transactions, receiving blockchain data
 - https://toncenter.com/ - for transaction fee estimation
 - https://tonapi.io/ - for displaying TON market price
+
+## Libraries
+- [ton-kotlin](https://github.com/ton-community/ton-kotlin)
+- [Code-Scanner](https://github.com/yuriy-budiyev/code-scanner)
+- [identikon](https://github.com/thibseisel/identikon)
+- [Volley](https://google.github.io/volley/)
