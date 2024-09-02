@@ -10,6 +10,7 @@ import com.tonairgapclient.datamodels.TransferData
 import com.tonairgapclient.datamodels.TransferWrap
 import com.tonairgapclient.datamodels.UnknownTransactionData
 import com.tonairgapclient.utils.address
+import com.tonairgapclient.utils.trimZeros
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -108,7 +109,8 @@ object TonlibController : CoroutineScope {
     }
     fun getTonPriceString(amount: Coins): String {
         val usdValue = amount.amount.value.toDouble() / BILLION * (tonUSDRate ?: return "")
-        return "($" + String.format("%.3f", usdValue) + ")"
+        val formattedValue = if(usdValue < 0.1) String.format("%.3f", usdValue) else String.format("%.2f", usdValue)
+        return trimZeros(("($$formattedValue)").replace(',', '.'))
     }
     fun validateAddress(address: String) : Boolean {
         return try {
@@ -197,8 +199,9 @@ object TonlibController : CoroutineScope {
                 commentBits += currentCell.bits
                 currentCell = currentCell.refs.firstOrNull()
             }
+            val comment = if(commentBits.isEmpty()) null else commentBits.slice(32).toByteArray().decodeToString()
             return TransferWrap(sourceAddress, addressToString(info.dest),
-                commentBits.slice(32).toByteArray().decodeToString(),
+                comment,
                 info.value.coins, seqno)
         } catch(e: Exception) {
             Log.d("Debug", "Exception: " + e.message)

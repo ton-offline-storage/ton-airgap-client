@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tonairgapclient.activities.AccountExplorerActivity
 import com.tonairgapclient.storage.AccountsKeeper
 import com.tonairgapclient.R
+import com.tonairgapclient.blockchain.TonlibController
 import com.tonairgapclient.datamodels.TransactionData
 import com.tonairgapclient.utils.trimZeros
 import org.ton.block.Coins
@@ -29,8 +30,9 @@ class TransactionItemAdapter(private val accountIndex: Int,
             Log.d("Debug", "Incoming binded at $position")
             val txn = AccountsKeeper.getAccountTxn(accountIndex, position)
             addressLabel.text = txn.secondAddress
+            val txnValue = AccountsKeeper.getTransactionValue(accountIndex, position)
             valueLabel.text = context.resources.getString(R.string.pos_value, trimZeros(
-                AccountsKeeper.getTransactionValue(accountIndex, position).toString())
+                txnValue.toString()) + " " + TonlibController.getTonPriceString(txnValue)
             )
             feeLabel.text = trimZeros(Coins(txn.feeNanoton).toString())
             dateTimeLabel.text = AccountsKeeper.formatDateTime(txn.dateTime)
@@ -51,8 +53,9 @@ class TransactionItemAdapter(private val accountIndex: Int,
             Log.d("Debug", "Outgoing binded at $position")
             val txn = AccountsKeeper.getAccountTxn(accountIndex, position)
             addressLabel.text = txn.secondAddress
+            val txnValue = AccountsKeeper.getTransactionValue(accountIndex, position)
             valueLabel.text = context.resources.getString(R.string.neg_value, trimZeros(
-                AccountsKeeper.getTransactionValue(accountIndex, position).toString())
+                txnValue.toString()) + " " + TonlibController.getTonPriceString(txnValue)
             )
             feeLabel.text = trimZeros(Coins(txn.feeNanoton).toString())
             dateTimeLabel.text = AccountsKeeper.formatDateTime(txn.dateTime)

@@ -146,21 +146,19 @@ object AccountsKeeper : CoroutineScope {
         return null
     }
     @JvmStatic
-    private suspend fun sendDeployment(address: String, bytes: ByteArray, fee: Coins) {
+    private suspend fun sendDeployment(address: String, bytes: ByteArray, fee: Coins, context: Context) {
         val values = TonlibController.getAccountValues(address) ?: return
         if(values.state != AccountValues.State.UNINIT) {
             Log.d("DebugD", "Already init, doesn't need deployment")
             val index = findAccount(address) ?: return
             noNeedDeployment(index)
+            store(context)
+            return
         }
         if(values.balance.amount.value < fee.amount.value) return
         Log.d("DebugD", "Sending Postponed Deployment")
         val res = TonlibController.sendBytes(bytes)
         Log.d("DebugD", "Postponed deployment sending result: $res")
-        if(res) {
-            val index = findAccount(address) ?: return
-            noNeedDeployment(index)
-        }
     }
     @JvmStatic
     fun startDeployer(context: Context) {
@@ -182,7 +180,7 @@ object AccountsKeeper : CoroutineScope {
                     val feeValue = makeDeploymentFeeRequest(accounts.getAccounts(index).deploymentBytes.toByteArray()) ?: continue
                     Log.d("DebugD", "Got fee on $address")
                     index = findAccount(address) ?: continue
-                    sendDeployment(address, accounts.getAccounts(index).deploymentBytes.toByteArray(), feeValue)
+                    sendDeployment(address, accounts.getAccounts(index).deploymentBytes.toByteArray(), feeValue, context)
                     Log.d("DebugD", "Tried sending on $address")
                 }
             }
