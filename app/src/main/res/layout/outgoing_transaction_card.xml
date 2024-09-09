@@ -16,13 +16,13 @@
         android:id="@+id/down_arrow"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="7dp"
         android:background="@color/transparent"
         android:contentDescription="@string/up_arrow"
         android:scaleType="fitXY"
         android:src="@drawable/up_arrow"
+        app:layout_constraintBottom_toBottomOf="@id/value_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/value_label" />
 
     <TextView
         android:id="@+id/textView2"
@@ -42,17 +42,16 @@
         android:id="@+id/value_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="13dp"
         android:fontFamily="@font/roboto"
         android:includeFontPadding="false"
         android:text="-100.000000001 TON"
         android:textAlignment="textEnd"
         android:textColor="@color/gray"
         android:textSize="19dp"
-        app:layout_constraintBottom_toBottomOf="@id/down_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@id/down_arrow" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/to"
@@ -65,7 +64,7 @@
         android:textColor="@color/mid_gray"
         android:textSize="17dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/down_arrow" />
+        app:layout_constraintTop_toBottomOf="@id/value_label" />
 
     <TextView
         android:id="@+id/address_label"

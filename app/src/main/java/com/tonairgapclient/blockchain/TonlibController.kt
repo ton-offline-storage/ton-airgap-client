@@ -285,11 +285,16 @@ object TonlibController : CoroutineScope {
         return getCachedLastBlockId()
     }
     suspend fun updateLastBlockId(): Boolean = withContext(Dispatchers.IO) {
-        val currentBlockId = liteClient.getLastBlockId()
-        if(!this@TonlibController::lastBlockId.isInitialized || lastBlockId != currentBlockId) {
-            lastBlockId = currentBlockId
-            true
-        } else {
+        try {
+            val currentBlockId = liteClient.getLastBlockId()
+            if(!this@TonlibController::lastBlockId.isInitialized || lastBlockId != currentBlockId) {
+                lastBlockId = currentBlockId
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            Log.d("Debug", "Couldn't get last block")
             false
         }
     }
