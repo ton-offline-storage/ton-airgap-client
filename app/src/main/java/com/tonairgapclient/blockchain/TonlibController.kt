@@ -69,7 +69,7 @@ object TonlibController : CoroutineScope {
     private lateinit var liteClient: LiteClient
     private var numLiteServers = 0
     private var clientInited = false
-    private lateinit var lastBlockId: TonNodeBlockIdExt
+    private var lastBlockId: TonNodeBlockIdExt? = null
     private var tonUSDRate: Double? = null
     private const val BILLION: Double = 1e9
     fun initClient() : Boolean {
@@ -275,19 +275,19 @@ object TonlibController : CoroutineScope {
         }
         seqno
     }
-    suspend fun getCachedLastBlockId(): TonNodeBlockIdExt {
-        return if(!this@TonlibController::lastBlockId.isInitialized) {
+    suspend fun getCachedLastBlockId(): TonNodeBlockIdExt? {
+        return if(lastBlockId == null) {
             getUpdatedLastBlockId()
         } else lastBlockId
     }
-    private suspend fun getUpdatedLastBlockId(): TonNodeBlockIdExt {
+    private suspend fun getUpdatedLastBlockId(): TonNodeBlockIdExt? {
         updateLastBlockId()
-        return getCachedLastBlockId()
+        return lastBlockId
     }
     suspend fun updateLastBlockId(): Boolean = withContext(Dispatchers.IO) {
         try {
             val currentBlockId = liteClient.getLastBlockId()
-            if(!this@TonlibController::lastBlockId.isInitialized || lastBlockId != currentBlockId) {
+            if(lastBlockId != currentBlockId) {
                 lastBlockId = currentBlockId
                 true
             } else {
@@ -301,7 +301,11 @@ object TonlibController : CoroutineScope {
     suspend fun getFullAccountState(address: String): FullAccountState? = withContext(Dispatchers.IO) {
         getFullAccountState(address, getUpdatedLastBlockId())
     }
-    suspend fun getFullAccountState(address: String, lastBlockId: TonNodeBlockIdExt): FullAccountState? = withContext(Dispatchers.IO) {
+    suspend fun getFullAccountState(address: String, lastBlockId: TonNodeBlockIdExt?): FullAccountState? = withContext(Dispatchers.IO) {
+        if(lastBlockId == null) {
+            Log.d("Debug","No last block Id")
+            return@withContext null
+        }
         var result: FullAccountState? = null
         var tries = GET_DATA_TRIES
         while(result == null && tries > 0) {

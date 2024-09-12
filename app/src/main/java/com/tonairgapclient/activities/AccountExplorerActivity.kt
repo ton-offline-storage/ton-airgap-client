@@ -213,7 +213,10 @@ class AccountExplorerActivity : AppCompatActivity() {
             Log.d("Debug", "No new blocks appeared")
             return
         }
-        lastDisplayedBlock = TonlibController.getCachedLastBlockId()
+        val cachedBlockId = TonlibController.getCachedLastBlockId()
+        if(cachedBlockId != null) {
+            lastDisplayedBlock = cachedBlockId
+        }
         updateTransactionsWithCachedBlock()
     }
 }
